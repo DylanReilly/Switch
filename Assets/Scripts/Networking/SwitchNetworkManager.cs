@@ -57,9 +57,9 @@ public class SwitchNetworkManager : NetworkManager
 
         Players.Add(player);
 
-        player.SetDisplayName($"Player{Players.Count}");
+        //player.SetDisplayName($"Player{Players.Count}");
 
-        player.SetPartyOwner(Players.Count == 1);
+        //player.SetPartyOwner(Players.Count == 1);
     }
 
     //Called when the scene is changed
