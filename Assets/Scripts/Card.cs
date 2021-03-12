@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class Card : NetworkBehaviour
 {
     [SerializeField] private int value;
-    [SerializeField] private char suit;
+    [SerializeField] private int suit;
     [SerializeField] GameObject cardModel;
+    [SerializeField] private int id = -1;
+    [SerializeField] private GameObject cardSprite;
 
-    private int owner;
-
-    public void SetOwner(int newOwner)
-    {
-        owner = newOwner;
-    }
+    public static event Action<int> CardPlayed;
 
     public int GetValue()
     {
         return value;
     }
 
-    public char GetSuit()
+    public int GetSuit()
     {
         return suit;
+    }
+
+    public void PlayCard(Card card)
+    {
+        CardPlayed?.Invoke(this.GetValue());
     }
 }

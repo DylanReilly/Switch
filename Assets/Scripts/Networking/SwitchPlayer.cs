@@ -7,6 +7,7 @@ using System;
 public class SwitchPlayer : NetworkBehaviour
 {
     [SerializeField] private Transform cameraTransform = null;
+    [SerializeField] private PlayerHand hand = null;
 
     //Hook is used in syncvars, Whenever the variable is changed the hooked method is called
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
@@ -34,6 +35,12 @@ public class SwitchPlayer : NetworkBehaviour
 
 
     #region Server
+
+    [Command]
+    public void CmdTryPlayCard(Card card)
+    { 
+        
+    }
 
     //subscribes to events, meaning it will listen and react to these events
     public override void OnStartServer()

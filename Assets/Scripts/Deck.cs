@@ -5,12 +5,14 @@ using Mirror;
 
 public class Deck : NetworkBehaviour
 {
-    private Stack<Card> gameDeck = new Stack<Card>();
+    [SerializeField] private Stack<Card> gameDeck = new Stack<Card>();
+
     [SyncVar]private Card topCard;
 
-    public void AddCard(Card card)
+    #region Server
+    public void PlayCard(Card card)
     {
-        if(card.GetSuit() != topCard.GetSuit() || card.GetValue() != topCard.GetValue()) { return; }
+        //if(card.GetSuit() != topCard.GetSuit() || card.GetValue() != topCard.GetValue()) { return; }
         gameDeck.Push(card);
 
     }
@@ -19,4 +21,6 @@ public class Deck : NetworkBehaviour
     { 
         
     }
+
+    #endregion
 }
