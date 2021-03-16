@@ -26,10 +26,10 @@ PrefabInstance:
     - target: {fileID: 244533855133718836, guid: 40c975838956dae4aabe2fac75875902, type: 3}
       propertyPath: cardSprite
       value: 
-      objectReference: {fileID: 100000, guid: 957aef8860dfa2f4dbd221c55d3280b7, type: 3}
+      objectReference: {fileID: 21300100, guid: 3924dd0449c173e4aa69d07bdb73d5ed, type: 3}
     - target: {fileID: 1348619568912904483, guid: 40c975838956dae4aabe2fac75875902, type: 3}
       propertyPath: m_Name
-      value: Q_Clubs Variant
+      value: K_Clubs Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1806632225531325221, guid: 40c975838956dae4aabe2fac75875902, type: 3}
       propertyPath: m_RootOrder

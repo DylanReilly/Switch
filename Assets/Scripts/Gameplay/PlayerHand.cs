@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerHand : MonoBehaviour
 {
-    private List<Card> hand = new List<Card>();
+    private List<Card> cards = null;
 
-    public List<Card> GetHand()
+    public List<Card> GetCards()
     {
-        return hand;
+        return cards;
     }
 
     public void AddCards(List<Card> newCards)
@@ -17,7 +17,7 @@ public class PlayerHand : MonoBehaviour
 
         foreach(Card card in newCards)
         {
-            hand.Add(card);
+            cards.Add(card);
         }
     }
 

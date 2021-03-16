@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using UnityEngine.UI;
 
 public class Card : NetworkBehaviour
 {
@@ -10,7 +11,7 @@ public class Card : NetworkBehaviour
     [SerializeField] private int suit;
     [SerializeField] GameObject cardModel;
     [SerializeField] private int id = -1;
-    [SerializeField] private GameObject cardSprite;
+    [SerializeField] private Sprite cardSprite;
 
     public static event Action<int> CardPlayed;
 
@@ -22,6 +23,11 @@ public class Card : NetworkBehaviour
     public int GetSuit()
     {
         return suit;
+    }
+
+    public Sprite GetCardSprite()
+    {
+        return cardSprite;
     }
 
     public void PlayCard(Card card)

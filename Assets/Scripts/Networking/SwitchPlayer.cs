@@ -8,8 +8,8 @@ public class SwitchPlayer : NetworkBehaviour
 {
     [SerializeField] private Transform cameraTransform = null;
     [SerializeField] private PlayerHand hand = null;
+    private List<Card> cardsToPlay = null;
 
-    //Hook is used in syncvars, Whenever the variable is changed the hooked method is called
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
     private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
@@ -18,7 +18,12 @@ public class SwitchPlayer : NetworkBehaviour
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
-    public string getDisplayName()
+    public PlayerHand GetHand()
+    {
+        return hand;
+    }
+
+    public string GetDisplayName()
     {
         return displayName;
     }
