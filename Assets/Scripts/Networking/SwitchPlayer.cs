@@ -18,6 +18,8 @@ public class SwitchPlayer : NetworkBehaviour
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
+    public event Action PickedUpCard;
+
     public PlayerHand GetHand()
     {
         return hand;
@@ -40,13 +42,6 @@ public class SwitchPlayer : NetworkBehaviour
 
 
     #region Server
-
-    [Command]
-    public void CmdTryPlayCard(Card card)
-    { 
-        
-    }
-
     //subscribes to events, meaning it will listen and react to these events
     public override void OnStartServer()
     {

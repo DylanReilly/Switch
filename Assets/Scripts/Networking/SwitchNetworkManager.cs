@@ -11,6 +11,7 @@ public class SwitchNetworkManager : NetworkManager
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
 
+    [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
     public List<SwitchPlayer> Players { get; } = new List<SwitchPlayer>();
 
     private bool isGameInProgress = false;
@@ -41,7 +42,7 @@ public class SwitchNetworkManager : NetworkManager
 
     public void StartGame()
     {
-        if (Players.Count < 2) { return; }
+        if (Players.Count < 1) { return; }
 
         isGameInProgress = true;
 
@@ -57,19 +58,19 @@ public class SwitchNetworkManager : NetworkManager
 
         Players.Add(player);
 
-        //player.SetDisplayName($"Player{Players.Count}");
+        player.SetDisplayName($"Player{Players.Count}");
 
-        //player.SetPartyOwner(Players.Count == 1);
+        player.SetPartyOwner(Players.Count == 1);
     }
 
     //Called when the scene is changed
     public override void OnServerSceneChanged(string sceneName)
     {
         //Checks the name to see if its a map, menu etc
-        if (SceneManager.GetActiveScene().name.StartsWith("Scene_Map"))
+        if (SceneManager.GetActiveScene().name.StartsWith("Scene_Menu"))
         {
-
-            
+            GameOverHandler gameOverHandlerInstance = Instantiate(gameOverHandlerPrefab);
+            NetworkServer.Spawn(gameOverHandlerInstance.gameObject);
         }
     }
     #endregion
