@@ -18,11 +18,11 @@ public class UICardRenderer : MonoBehaviour
         //Cache player when object is created
         player = NetworkClient.connection.identity.GetComponent<SwitchPlayer>();
 
-        //Render cards when game starts
-        UpdateCardUI();
-
         //Update card UI when event is invoked
         player.PickedUpCard += UpdateCardUI;
+
+        //Render cards when game starts
+        UpdateCardUI();
     }
 
     private void OnDestroy()
@@ -36,6 +36,7 @@ public class UICardRenderer : MonoBehaviour
         //Loop through the players hand and render cards sequencially on UI
         foreach (Card card in player.GetHand().GetCards())
         {
+            Debug.Log(card.GetCardId());
             Image imageInstance = Instantiate(imagePrefab);
             imageInstance.transform.SetParent(HandStartPosition.transform, false);
             imageInstance.sprite = card.GetCardSprite();

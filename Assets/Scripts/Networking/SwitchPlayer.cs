@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using UnityEditor;
 
 public class SwitchPlayer : NetworkBehaviour
 {
@@ -42,13 +43,11 @@ public class SwitchPlayer : NetworkBehaviour
 
 
     #region Server
-    //subscribes to events, meaning it will listen and react to these events
     public override void OnStartServer()
     {
         DontDestroyOnLoad(gameObject);
     }
 
-    //Unsubscribes from events, stops listening
     public override void OnStopServer()
     {
 

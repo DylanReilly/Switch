@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHand : MonoBehaviour
 {
-    private List<Card> cards = null;
+    [SerializeField] private List<Card> cards = new List<Card>();
 
     public List<Card> GetCards()
     {
@@ -19,6 +19,11 @@ public class PlayerHand : MonoBehaviour
         {
             cards.Add(card);
         }
+    }
+
+    public void AddSingleCard(Card card)
+    {
+        cards.Add(card);
     }
 
     

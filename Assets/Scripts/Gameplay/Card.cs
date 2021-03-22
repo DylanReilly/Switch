@@ -15,6 +15,11 @@ public class Card : NetworkBehaviour
 
     public static event Action<int> CardPlayed;
 
+    public int GetCardId()
+    {
+        return id;
+    }
+
     public int GetValue()
     {
         return value;
