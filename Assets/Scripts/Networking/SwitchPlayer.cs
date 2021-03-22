@@ -41,7 +41,6 @@ public class SwitchPlayer : NetworkBehaviour
         return cameraTransform;
     }
 
-
     #region Server
     public override void OnStartServer()
     {
