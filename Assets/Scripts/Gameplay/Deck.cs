@@ -9,6 +9,11 @@ public class Deck : NetworkBehaviour
     [SerializeField] private List<Card> gameDeck = new List<Card>();
     [SyncVar] private Card topCard;
 
+    public Card GetTopCard()
+    {
+        return topCard;
+    }
+
     #region Server
     //Load and shuffle deck when game starts
     private void Start()
@@ -19,7 +24,6 @@ public class Deck : NetworkBehaviour
 
         foreach (Card card in loadDeck)
         {
-            Debug.Log(card.GetCardId());
             gameDeck.Add(card);
         }
     }
@@ -35,6 +39,11 @@ public class Deck : NetworkBehaviour
             deck[rnd] = deck[i];
             deck[i] = tempGO;
         }
+    }
+
+    public void PlayCard(Card card)
+    {
+        gameDeck.Add(card);
     }
     
     #endregion

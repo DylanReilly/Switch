@@ -19,7 +19,7 @@ public class UICardRenderer : MonoBehaviour
         player = NetworkClient.connection.identity.GetComponent<SwitchPlayer>();
 
         //Update card UI when event is invoked
-        player.PickedUpCard += UpdateCardUI;
+        player.HandChanged += UpdateCardUI;
 
         //Render cards when game starts
         UpdateCardUI();
@@ -28,7 +28,7 @@ public class UICardRenderer : MonoBehaviour
     private void OnDestroy()
     {
         //Unsubscribe from event when destroyed
-        player.PickedUpCard -= UpdateCardUI;
+        player.HandChanged -= UpdateCardUI;
     }
 
     private void UpdateCardUI()
@@ -36,7 +36,6 @@ public class UICardRenderer : MonoBehaviour
         //Loop through the players hand and render cards sequencially on UI
         foreach (Card card in player.GetHand().GetCards())
         {
-            Debug.Log(card.GetCardId());
             Image imageInstance = Instantiate(imagePrefab);
             imageInstance.transform.SetParent(HandStartPosition.transform, false);
             imageInstance.sprite = card.GetCardSprite();

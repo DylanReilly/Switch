@@ -65,6 +65,7 @@ MonoBehaviour:
   syncInterval: 0.1
   cameraTransform: {fileID: 0}
   hand: {fileID: 8824354338888444088}
+  deck: {fileID: 706802992351224073, guid: 84e8534510a115d4da00bd021fd4dcbc, type: 3}
 --- !u!114 &8824354338888444088
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class SwitchPlayer : NetworkBehaviour
 {
     [SerializeField] private Transform cameraTransform = null;
     [SerializeField] private PlayerHand hand = null;
+    [SerializeField] private Deck deck = null;
     private List<Card> cardsToPlay = null;
 
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
@@ -19,7 +20,7 @@ public class SwitchPlayer : NetworkBehaviour
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
-    public event Action PickedUpCard;
+    public event Action HandChanged;
 
     public PlayerHand GetHand()
     {
@@ -47,11 +48,6 @@ public class SwitchPlayer : NetworkBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public override void OnStopServer()
-    {
-
-    }
-
     [Server]
     public void SetDisplayName(string displayName)
     {
@@ -71,6 +67,38 @@ public class SwitchPlayer : NetworkBehaviour
         if (!isPartyOwner) { return; }
 
         ((SwitchNetworkManager)NetworkManager.singleton).StartGame();
+    }
+
+    //Try to move a card from player hand to the deck
+    [Command]
+    public void CmdTryPlayCard(int cardId)
+    {
+        Card cardToPlay = null;
+        foreach (Card card in hand.GetCards())
+        {
+            if (card.GetCardId() == cardId)
+            {
+                cardToPlay = card;
+                break;
+            }
+        }
+
+        if(cardToPlay = null) 
+        {
+            Debug.Log("Card is null");    
+            return; 
+        }
+
+        //Only play card if suit or value match, or if card is an Ace
+        if (deck.GetTopCard().GetSuit() != cardToPlay.GetSuit() 
+            && deck.GetTopCard().GetValue() != cardToPlay.GetValue()
+            || cardToPlay.GetValue() != 1) { return; }
+
+        //Add card to deck
+        deck.PlayCard(cardToPlay);
+
+        //Triggers event to update UI
+        HandChanged?.Invoke();
     }
     #endregion
 

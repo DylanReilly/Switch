@@ -34,9 +34,4 @@ public class Card : NetworkBehaviour
     {
         return cardSprite;
     }
-
-    public void PlayCard(Card card)
-    {
-        CardPlayed?.Invoke(this.GetValue());
-    }
 }
