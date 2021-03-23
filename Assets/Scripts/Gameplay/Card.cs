@@ -13,8 +13,6 @@ public class Card : NetworkBehaviour
     [SerializeField] private int id = -1;
     [SerializeField] private Sprite cardSprite;
 
-    public static event Action<int> CardPlayed;
-
     public int GetCardId()
     {
         return id;

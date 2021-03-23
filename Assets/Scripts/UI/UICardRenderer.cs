@@ -22,7 +22,7 @@ public class UICardRenderer : MonoBehaviour
         player.HandChanged += UpdateCardUI;
 
         //Render cards when game starts
-        UpdateCardUI();
+        //UpdateCardUI();
     }
 
     private void OnDestroy()
@@ -33,16 +33,16 @@ public class UICardRenderer : MonoBehaviour
 
     private void UpdateCardUI()
     {
-        //Loop through the players hand and render cards sequencially on UI
-        foreach (Card card in player.GetHand().GetCards())
-        {
-            Image imageInstance = Instantiate(imagePrefab);
-            imageInstance.transform.SetParent(HandStartPosition.transform, false);
-            imageInstance.sprite = card.GetCardSprite();
-            imageInstance.rectTransform.anchoredPosition += new Vector2(OFFSET, 0);
+        //Renders the latest card in the players hand to the UI
+        Card card = player.GetHand()[player.GetHand().Count - 1];
 
-            //Offset moves cards over so they arent rendered on top of each other
-            OFFSET += 50;
-        }
+        Image imageInstance = Instantiate(imagePrefab);
+        imageInstance.transform.SetParent(HandStartPosition.transform, false);
+        imageInstance.sprite = card.GetCardSprite();
+        imageInstance.rectTransform.anchoredPosition += new Vector2(OFFSET, 0);
+
+        //Offset moves cards over so they arent rendered on top of each other
+        OFFSET += 50;
+        
     }
 }

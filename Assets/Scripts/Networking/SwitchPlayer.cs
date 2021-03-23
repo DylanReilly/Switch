@@ -4,25 +4,40 @@ using UnityEngine;
 using Mirror;
 using System;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class SwitchPlayer : NetworkBehaviour
 {
     [SerializeField] private Transform cameraTransform = null;
-    [SerializeField] private PlayerHand hand = null;
-    [SerializeField] private Deck deck = null;
-    private List<Card> cardsToPlay = null;
+    [SerializeField] private List<Card> hand = null;
+    public Deck deck = null;
 
-    [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
-    private bool isPartyOwner = false;
-    [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
-    private string displayName;
+    //Stores a copy of every card for working over the network
+    private Dictionary<int, Card> referenceDeck = new Dictionary<int, Card>();
+
+    [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))] private bool isPartyOwner = false;
+    [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))] private string displayName;
 
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
     public event Action HandChanged;
 
-    public PlayerHand GetHand()
+    private void Start()
+    {
+        //Sets eck object only when deck has been spawned
+        Deck.DeckSpawned += FindDeck;
+
+        //Loads a reference deck of key & value pairs to enable easy lookup
+        LoadReferenceDeck();
+    }
+
+    private void OnDestroy()
+    {
+        Deck.DeckSpawned -= FindDeck;
+    }
+
+    public List<Card> GetHand()
     {
         return hand;
     }
@@ -40,6 +55,30 @@ public class SwitchPlayer : NetworkBehaviour
     public Transform GetCameraTransform()
     {
         return cameraTransform;
+    }
+
+    //Sets the deck field for this object
+    private void FindDeck()
+    {
+        deck = GameObject.FindWithTag("Deck").GetComponent<Deck>();
+    }
+
+    //Takes in card ID, finds card in reference deck and adds it to the hand
+    private void DrawCard(int cardId)
+    {
+        hand.Add(referenceDeck[cardId]);
+        HandChanged?.Invoke();
+    }
+
+    private void LoadReferenceDeck()
+    {
+        UnityEngine.Object[] loadDeck;
+        loadDeck = Resources.LoadAll("Cards/CardInstances", typeof(Card));
+
+        foreach (Card card in loadDeck)
+        {
+            referenceDeck.Add(card.GetCardId(), card);
+        }
     }
 
     #region Server
@@ -74,7 +113,7 @@ public class SwitchPlayer : NetworkBehaviour
     public void CmdTryPlayCard(int cardId)
     {
         Card cardToPlay = null;
-        foreach (Card card in hand.GetCards())
+        foreach (Card card in hand)
         {
             if (card.GetCardId() == cardId)
             {
@@ -89,7 +128,7 @@ public class SwitchPlayer : NetworkBehaviour
             return; 
         }
 
-        //Only play card if suit or value match, or if card is an Ace
+        //Only play card if suit or value match, or if card is an Ace(ID of 1)
         if (deck.GetTopCard().GetSuit() != cardToPlay.GetSuit() 
             && deck.GetTopCard().GetValue() != cardToPlay.GetValue()
             || cardToPlay.GetValue() != 1) { return; }
@@ -99,6 +138,12 @@ public class SwitchPlayer : NetworkBehaviour
 
         //Triggers event to update UI
         HandChanged?.Invoke();
+    }
+
+    [Command]
+    public void CmdTryDrawCard()
+    {
+        DrawCard(deck.DealCard());
     }
     #endregion
 
