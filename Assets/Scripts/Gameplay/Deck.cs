@@ -7,27 +7,29 @@ using System;
 
 public class Deck : NetworkBehaviour
 {
-    [SerializeField] private Stack<Card> gameDeck = new Stack<Card>();
-    [SerializeField] private Card topCard;
+    [SerializeField] private Stack<int> gameDeck = new Stack<int>();
+    [SerializeField][SyncVar(hook = nameof(UpdateTopCard))] private int topCardId;
     public static event Action DeckSpawned;
+    public static event Action<int> TopCardChanged;
 
-    public Card GetTopCard()
+    public int GetTopCardId()
     {
-        return gameDeck.Peek();
+        return topCardId;
     }
 
     #region Server
-    private void Start()
+    public override void OnStartServer()
     {
         LoadDeck();
-        topCard = gameDeck.Peek();
         DeckSpawned?.Invoke();
+        topCardId = gameDeck.Peek();
     }
 
     //Used to shuffle the deck
-    public void Shuffle(UnityEngine.Object[] deck)
+    [ServerCallback]
+    public void Shuffle(int[] deck)
     {
-        UnityEngine.Object tempGO;
+        int tempGO;
         for (int i = 0; i < deck.Length; i++)
         {
             int rnd = UnityEngine.Random.Range(0, deck.Length);
@@ -38,31 +40,43 @@ public class Deck : NetworkBehaviour
     }
 
     //Loads deck from resources and shuffles order
+    [ServerCallback]
     private void LoadDeck()
     {
-        UnityEngine.Object[] loadDeck;
-        loadDeck = Resources.LoadAll("Cards/CardInstances", typeof(Card));
+        //Fill an array with numbers 1 - 52, representing cardIds
+        int[] loadDeck = new int[52];
+        for (int i = 0; i < 52; i++)
+        {
+            loadDeck[i] = i + 1;
+        }
+        
+        //Shuffle the deck
         Shuffle(loadDeck);
 
-        foreach (Card card in loadDeck)
+        //Push shuffled numbers onto stack
+        for (int i = 0; i < loadDeck.Length; i++)
         {
-            gameDeck.Push(card);
+            gameDeck.Push(loadDeck[i]);
         }
     }
 
+    [Server]
     public int DealCard()
     {
-        return gameDeck.Pop().GetCardId();
+        int dealCardId = gameDeck.Pop();
+        topCardId = gameDeck.Peek();
+        return dealCardId;
     }
 
-    private void UpdateTopCard(Card oldCard, Card newCard)
+    [Client]
+    private void UpdateTopCard(int oldCardId, int newCardId)
     {
-        topCard = gameDeck.Peek();
+        TopCardChanged?.Invoke(newCardId);
     }
 
-    public void PlayCard(Card card)
+    public void PlayCard(int cardId)
     {
-        gameDeck.Push(card);
+        gameDeck.Push(cardId);
     }
     
     #endregion

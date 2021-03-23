@@ -9,11 +9,8 @@ using UnityEngine.SceneManagement;
 public class SwitchPlayer : NetworkBehaviour
 {
     [SerializeField] private Transform cameraTransform = null;
-    [SerializeField] private List<Card> hand = null;
+    [SerializeField] private List<int> hand = new List<int>();
     public Deck deck = null;
-
-    //Stores a copy of every card for working over the network
-    private Dictionary<int, Card> referenceDeck = new Dictionary<int, Card>();
 
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))] private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))] private string displayName;
@@ -21,15 +18,12 @@ public class SwitchPlayer : NetworkBehaviour
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
-    public event Action HandChanged;
+    public event Action<int> HandChanged;
 
     private void Start()
     {
-        //Sets eck object only when deck has been spawned
+        //Sets deck object only when deck has been spawned
         Deck.DeckSpawned += FindDeck;
-
-        //Loads a reference deck of key & value pairs to enable easy lookup
-        LoadReferenceDeck();
     }
 
     private void OnDestroy()
@@ -37,7 +31,7 @@ public class SwitchPlayer : NetworkBehaviour
         Deck.DeckSpawned -= FindDeck;
     }
 
-    public List<Card> GetHand()
+    public List<int> GetHand()
     {
         return hand;
     }
@@ -58,6 +52,7 @@ public class SwitchPlayer : NetworkBehaviour
     }
 
     //Sets the deck field for this object
+    [Client]
     private void FindDeck()
     {
         deck = GameObject.FindWithTag("Deck").GetComponent<Deck>();
@@ -66,19 +61,12 @@ public class SwitchPlayer : NetworkBehaviour
     //Takes in card ID, finds card in reference deck and adds it to the hand
     private void DrawCard(int cardId)
     {
-        hand.Add(referenceDeck[cardId]);
-        HandChanged?.Invoke();
+        hand.Add(cardId);
     }
 
-    private void LoadReferenceDeck()
+    private void HandUpdated(int cardId)
     {
-        UnityEngine.Object[] loadDeck;
-        loadDeck = Resources.LoadAll("Cards/CardInstances", typeof(Card));
-
-        foreach (Card card in loadDeck)
-        {
-            referenceDeck.Add(card.GetCardId(), card);
-        }
+        HandChanged?.Invoke(cardId);
     }
 
     #region Server
@@ -106,38 +94,6 @@ public class SwitchPlayer : NetworkBehaviour
         if (!isPartyOwner) { return; }
 
         ((SwitchNetworkManager)NetworkManager.singleton).StartGame();
-    }
-
-    //Try to move a card from player hand to the deck
-    [Command]
-    public void CmdTryPlayCard(int cardId)
-    {
-        Card cardToPlay = null;
-        foreach (Card card in hand)
-        {
-            if (card.GetCardId() == cardId)
-            {
-                cardToPlay = card;
-                break;
-            }
-        }
-
-        if(cardToPlay = null) 
-        {
-            Debug.Log("Card is null");    
-            return; 
-        }
-
-        //Only play card if suit or value match, or if card is an Ace(ID of 1)
-        if (deck.GetTopCard().GetSuit() != cardToPlay.GetSuit() 
-            && deck.GetTopCard().GetValue() != cardToPlay.GetValue()
-            || cardToPlay.GetValue() != 1) { return; }
-
-        //Add card to deck
-        deck.PlayCard(cardToPlay);
-
-        //Triggers event to update UI
-        HandChanged?.Invoke();
     }
 
     [Command]
