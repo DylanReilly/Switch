@@ -12,6 +12,7 @@ public class SwitchNetworkManager : NetworkManager
     public static event Action ClientOnDisconnected;
 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
+    [SerializeField] private Deck deckPrefab = null;
 
     public List<SwitchPlayer> Players { get; } = new List<SwitchPlayer>();
 
@@ -73,6 +74,13 @@ public class SwitchNetworkManager : NetworkManager
             GameOverHandler gameOverHandlerInstance = Instantiate(gameOverHandlerPrefab);
             NetworkServer.Spawn(gameOverHandlerInstance.gameObject);
         }
+
+        ////Spawns the deck on the network
+        //if (SceneManager.GetActiveScene().name.StartsWith("Scene_Map"))
+        //{
+        //    Deck deck = Instantiate(deckPrefab, new Vector3(0f, 0.55f, 0f), Quaternion.identity);
+        //    NetworkServer.Spawn(deck.gameObject);
+        //}
     }
     #endregion
 

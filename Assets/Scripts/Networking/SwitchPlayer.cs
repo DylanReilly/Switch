@@ -9,10 +9,11 @@ using UnityEngine.SceneManagement;
 public class SwitchPlayer : NetworkBehaviour
 {
     [SerializeField] private Transform cameraTransform = null;
-    
 
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))] private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))] private string displayName;
+
+    [SerializeField]private List<Card> myCards = new List<Card>();
 
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
@@ -61,10 +62,8 @@ public class SwitchPlayer : NetworkBehaviour
     #endregion
 
     #region Client
-    //Subscribes to events
     public override void OnStartAuthority()
     {
-        //Ignore if you are the server
         if (NetworkServer.active) { return; }
     }
 
@@ -77,14 +76,10 @@ public class SwitchPlayer : NetworkBehaviour
         ((SwitchNetworkManager)NetworkManager.singleton).Players.Add(this);
     }
 
-    //Unsubscribe from events
     public override void OnStopClient()
     {
         ClientOnInfoUpdated?.Invoke();
-
-        //Ignore if you are the server
         if (!isClientOnly) { return; }
-
         ((SwitchNetworkManager)NetworkManager.singleton).Players.Remove(this);
     }
 
@@ -99,5 +94,7 @@ public class SwitchPlayer : NetworkBehaviour
     {
         ClientOnInfoUpdated?.Invoke();
     }
+
+    
     #endregion
 }

@@ -504,6 +504,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8550624644921472716, guid: eaafe0fc88a6daf4a8aa2075f4d35822, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550624644921472716, guid: eaafe0fc88a6daf4a8aa2075f4d35822, type: 3}
+      propertyPath: spawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 706802992351224075, guid: 84e8534510a115d4da00bd021fd4dcbc, type: 3}
+    - target: {fileID: 8550624644921472716, guid: eaafe0fc88a6daf4a8aa2075f4d35822, type: 3}
+      propertyPath: spawnPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550624644921472716, guid: eaafe0fc88a6daf4a8aa2075f4d35822, type: 3}
+      propertyPath: spawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 8400445341234776186, guid: a3220a47a847946438c9f1b85204bfb9, type: 3}
+    - target: {fileID: 8550624644921472716, guid: eaafe0fc88a6daf4a8aa2075f4d35822, type: 3}
+      propertyPath: spawnPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 8400445341234776186, guid: a3220a47a847946438c9f1b85204bfb9, type: 3}
     - target: {fileID: 8843138576520571612, guid: eaafe0fc88a6daf4a8aa2075f4d35822, type: 3}
       propertyPath: m_Name
       value: NetworkManager
