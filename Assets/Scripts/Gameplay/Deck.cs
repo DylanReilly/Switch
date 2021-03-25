@@ -8,7 +8,7 @@ using System;
 public class Deck : NetworkBehaviour
 {
     [SerializeField] private Stack<int> gameDeck = new Stack<int>();
-    [SerializeField][SyncVar(hook = nameof(UpdateTopCard))] private int topCardId;
+    [SerializeField][SyncVar] private int topCardId;
     public static event Action DeckSpawned;
     public static event Action<int> TopCardChanged;
 
@@ -21,12 +21,11 @@ public class Deck : NetworkBehaviour
     public override void OnStartServer()
     {
         LoadDeck();
-        DeckSpawned?.Invoke();
+        //DeckSpawned?.Invoke();
         topCardId = gameDeck.Peek();
     }
 
     //Used to shuffle the deck
-    [ServerCallback]
     public void Shuffle(int[] deck)
     {
         int tempGO;
@@ -40,7 +39,6 @@ public class Deck : NetworkBehaviour
     }
 
     //Loads deck from resources and shuffles order
-    [ServerCallback]
     private void LoadDeck()
     {
         //Fill an array with numbers 1 - 52, representing cardIds
@@ -58,26 +56,6 @@ public class Deck : NetworkBehaviour
         {
             gameDeck.Push(loadDeck[i]);
         }
-    }
-
-    [Server]
-    public int DealCard()
-    {
-        int dealCardId = gameDeck.Pop();
-        topCardId = gameDeck.Peek();
-        return dealCardId;
-    }
-
-    [Client]
-    private void UpdateTopCard(int oldCardId, int newCardId)
-    {
-        TopCardChanged?.Invoke(newCardId);
-    }
-
-    public void PlayCard(int cardId)
-    {
-        gameDeck.Push(cardId);
-    }
-    
+    } 
     #endregion
 }

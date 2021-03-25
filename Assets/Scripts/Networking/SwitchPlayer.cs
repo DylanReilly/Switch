@@ -9,32 +9,13 @@ using UnityEngine.SceneManagement;
 public class SwitchPlayer : NetworkBehaviour
 {
     [SerializeField] private Transform cameraTransform = null;
-    [SerializeField] private List<int> hand = new List<int>();
-    public Deck deck = null;
+    
 
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))] private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))] private string displayName;
 
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
-
-    public event Action<int> HandChanged;
-
-    private void Start()
-    {
-        //Sets deck object only when deck has been spawned
-        Deck.DeckSpawned += FindDeck;
-    }
-
-    private void OnDestroy()
-    {
-        Deck.DeckSpawned -= FindDeck;
-    }
-
-    public List<int> GetHand()
-    {
-        return hand;
-    }
 
     public string GetDisplayName()
     {
@@ -49,24 +30,6 @@ public class SwitchPlayer : NetworkBehaviour
     public Transform GetCameraTransform()
     {
         return cameraTransform;
-    }
-
-    //Sets the deck field for this object
-    [Client]
-    private void FindDeck()
-    {
-        deck = GameObject.FindWithTag("Deck").GetComponent<Deck>();
-    }
-
-    //Takes in card ID, finds card in reference deck and adds it to the hand
-    private void DrawCard(int cardId)
-    {
-        hand.Add(cardId);
-    }
-
-    private void HandUpdated(int cardId)
-    {
-        HandChanged?.Invoke(cardId);
     }
 
     #region Server
@@ -95,16 +58,9 @@ public class SwitchPlayer : NetworkBehaviour
 
         ((SwitchNetworkManager)NetworkManager.singleton).StartGame();
     }
-
-    [Command]
-    public void CmdTryDrawCard()
-    {
-        DrawCard(deck.DealCard());
-    }
     #endregion
 
     #region Client
-
     //Subscribes to events
     public override void OnStartAuthority()
     {

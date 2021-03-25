@@ -62,8 +62,10 @@ MonoBehaviour:
   playerPrefab: {fileID: 737594875723434592, guid: b739ce416faf6ee4fba90d250bf6750c, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 706802992351224075, guid: 84e8534510a115d4da00bd021fd4dcbc, type: 3}
   gameOverHandlerPrefab: {fileID: 4231056968404838890, guid: aac5e90f9b733e4449c94abf91811f81, type: 3}
+  deckPrefab: {fileID: 706802992351224073, guid: 84e8534510a115d4da00bd021fd4dcbc, type: 3}
 --- !u!114 &1547147140
 MonoBehaviour:
   m_ObjectHideFlags: 0

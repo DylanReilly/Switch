@@ -14,6 +14,6 @@ public class UIControls : MonoBehaviour
 
     public void DrawCard()
     {
-        player.CmdTryDrawCard();
+        //player.CmdTryDrawCard();
     }
 }

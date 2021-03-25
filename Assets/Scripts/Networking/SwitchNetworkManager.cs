@@ -12,6 +12,7 @@ public class SwitchNetworkManager : NetworkManager
     public static event Action ClientOnDisconnected;
 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
+
     public List<SwitchPlayer> Players { get; } = new List<SwitchPlayer>();
 
     private bool isGameInProgress = false;

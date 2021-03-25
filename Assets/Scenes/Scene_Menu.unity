@@ -387,6 +387,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6249675173217127941, guid: 12464f99e74269945915155fc58e18c8, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249675173217127941, guid: 12464f99e74269945915155fc58e18c8, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6249675173486687451, guid: 12464f99e74269945915155fc58e18c8, type: 3}
       propertyPath: m_IsActive
       value: 0

@@ -11,7 +11,7 @@ public class UICardRenderer : MonoBehaviour
 
     private Dictionary<int, Card> referenceDeck = new Dictionary<int, Card>();
 
-    private SwitchPlayer player;
+    [SerializeField]private SwitchPlayer player;
     //An offset to stop cards rendering directly on top of each other
     int OFFSET = 0;
 
@@ -21,18 +21,15 @@ public class UICardRenderer : MonoBehaviour
         player = NetworkClient.connection.identity.GetComponent<SwitchPlayer>();
 
         //Update card UI when event is invoked
-        player.HandChanged += UpdateCardUI;
+        //player.HandChanged += UpdateCardUI;
 
         LoadReferenceDeck();
-
-        //Render cards when game starts
-        //UpdateCardUI();
     }
 
     private void OnDestroy()
     {
         //Unsubscribe from event when destroyed
-        player.HandChanged -= UpdateCardUI;
+        //player.HandChanged -= UpdateCardUI;
     }
 
     //Loads dictionary storing card data, using cardId as a key
@@ -47,10 +44,11 @@ public class UICardRenderer : MonoBehaviour
         }
     }
 
-    private void UpdateCardUI(int cardId)
+    public void UpdateCardUI(int cardId)
     {
         Debug.Log("Render started");
         //Renders the latest card in the players hand to the UI
+
         Card card = referenceDeck[cardId];
 
         Image imageInstance = Instantiate(imagePrefab);
@@ -61,6 +59,5 @@ public class UICardRenderer : MonoBehaviour
         //Offset moves cards over so they arent rendered on top of each other
         OFFSET += 50;
         Debug.Log("Render finished");
-
     }
 }
