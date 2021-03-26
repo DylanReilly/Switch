@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5548191921811100821}
   - component: {fileID: 8550624644921472716}
-  - component: {fileID: 1547147140}
-  - component: {fileID: 1547147141}
   - component: {fileID: 4961635371871354730}
   m_Layer: 0
   m_Name: NetworkManager
@@ -65,36 +63,6 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 706802992351224075, guid: 84e8534510a115d4da00bd021fd4dcbc, type: 3}
   gameOverHandlerPrefab: {fileID: 4231056968404838890, guid: aac5e90f9b733e4449c94abf91811f81, type: 3}
-  deckPrefab: {fileID: 706802992351224073, guid: 84e8534510a115d4da00bd021fd4dcbc, type: 3}
---- !u!114 &1547147140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8843138576520571612}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea368fb6f27ec2f40a40e20977992b9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Channels: 02000000
-  Timeout: 25
-  SteamAppID: 480
-  AllowSteamRelay: 1
-  SteamUserID: 0
---- !u!114 &1547147141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8843138576520571612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4961635371871354730
 MonoBehaviour:
   m_ObjectHideFlags: 0

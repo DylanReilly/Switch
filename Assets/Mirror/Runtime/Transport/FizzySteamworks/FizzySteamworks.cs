@@ -5,19 +5,18 @@ using UnityEngine;
 
 namespace Mirror.FizzySteam
 {
-    [RequireComponent(typeof(SteamManager))]
     [HelpURL("https://github.com/Chykary/FizzySteamworks")]    
     public class FizzySteamworks : Transport
     {
         private const string STEAM_SCHEME = "steam";
 
-        private Client client;
-        private Server server;
+        private static Client client;
+        private static Server server;
 
-        private Common activeNode;
+        private static Common activeNode;
 
         [SerializeField]
-        public EP2PSend[] Channels = new EP2PSend[1] { EP2PSend.k_EP2PSendReliable };
+        public EP2PSend[] Channels = new EP2PSend[2] { EP2PSend.k_EP2PSendReliable , EP2PSend.k_EP2PSendUnreliableNoDelay };
 
         [Tooltip("Timeout for connecting in seconds.")]
         public int Timeout = 25;
@@ -180,13 +179,21 @@ namespace Mirror.FizzySteam
 
         public override void Shutdown()
         {
-            server?.Shutdown();
-            client?.Disconnect();
-
-            server = null;
-            client = null;
             activeNode = null;
-            Debug.Log("Transport shut down.");
+
+            if (server != null)
+            {
+                server.Shutdown();
+                server = null;
+                Debug.Log("Transport shut down - was server.");
+            }
+            
+            if(client != null)
+            {
+                client.Disconnect();
+                client = null;                
+                Debug.Log("Transport shut down - was client.");
+            }   
         }
 
         public override int GetMaxPacketSize(int channelId)

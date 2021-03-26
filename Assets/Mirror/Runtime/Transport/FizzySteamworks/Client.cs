@@ -61,10 +61,18 @@ namespace Mirror.FizzySteam
                 SendInternal(hostSteamID, InternalMessages.CONNECT);
 
                 Task connectedCompleteTask = connectedComplete.Task;
+                Task timeOutTask = Task.Delay(ConnectionTimeout, cancelToken.Token);
 
-                if (await Task.WhenAny(connectedCompleteTask, Task.Delay(ConnectionTimeout, cancelToken.Token)) != connectedCompleteTask)
+                if (await Task.WhenAny(connectedCompleteTask, timeOutTask) != connectedCompleteTask)
                 {
-                    Debug.LogError($"Connection to {host} timed out.");
+                    if (cancelToken.IsCancellationRequested)
+                    {
+                        Debug.LogError($"The connection attempt was cancelled.");
+                    }
+                    else if(timeOutTask.IsCompleted)
+                    {
+                        Debug.LogError($"Connection to {host} timed out.");
+                    }
                     OnConnected -= SetConnectedComplete;
                     OnConnectionFailed(hostSteamID);
                 }
@@ -133,14 +141,20 @@ namespace Mirror.FizzySteam
             switch (type)
             {
                 case InternalMessages.ACCEPT_CONNECT:
-                    Connected = true;
-                    OnConnected.Invoke();
-                    Debug.Log("Connection established.");
+                    if (!Connected)
+                    {
+                        Connected = true;
+                        OnConnected.Invoke();
+                        Debug.Log("Connection established.");
+                    }
                     break;
                 case InternalMessages.DISCONNECT:
-                    Connected = false;
-                    Debug.Log("Disconnected.");
-                    OnDisconnected.Invoke();
+                    if (Connected)
+                    {
+                        Connected = false;
+                        Debug.Log("Disconnected.");
+                        OnDisconnected.Invoke();
+                    }
                     break;
                 default:
                     Debug.Log("Received unknown message type");
