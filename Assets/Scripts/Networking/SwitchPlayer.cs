@@ -18,6 +18,8 @@ public class SwitchPlayer : NetworkBehaviour
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
 
+    public event Action<int> MyCardsUpdated;
+
     public string GetDisplayName()
     {
         return displayName;
@@ -31,6 +33,12 @@ public class SwitchPlayer : NetworkBehaviour
     public Transform GetCameraTransform()
     {
         return cameraTransform;
+    }
+
+    public void AddCard(Card card)
+    {
+        myCards.Add(card);
+        MyCardsUpdated?.Invoke(card.GetCardId());
     }
 
     #region Server

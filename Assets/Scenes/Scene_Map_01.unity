@@ -179,6 +179,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 706802992351224073, guid: 84e8534510a115d4da00bd021fd4dcbc, type: 3}
+      propertyPath: deckHandler
+      value: 
+      objectReference: {fileID: 1529810605}
     - target: {fileID: 706802992351224075, guid: 84e8534510a115d4da00bd021fd4dcbc, type: 3}
       propertyPath: m_Name
       value: Deck
@@ -207,6 +211,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2113536607, guid: 0dfe996bb49a33f41b4f64fb01a6a746, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1529810605}
+    - target: {fileID: 2113536607, guid: 0dfe996bb49a33f41b4f64fb01a6a746, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PickupCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113536607, guid: 0dfe996bb49a33f41b4f64fb01a6a746, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DeckHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2113536608, guid: 0dfe996bb49a33f41b4f64fb01a6a746, type: 3}
       propertyPath: m_Type
       value: 0
@@ -586,51 +602,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 702e94d53ff174d4aa0457bd5d64158f, type: 3}
---- !u!1 &1529810604
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1529810606}
-  - component: {fileID: 1529810605}
-  m_Layer: 0
-  m_Name: DeckRenderer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1529810605
+--- !u!114 &1529810605 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 5593756377752377841, guid: e1219356f2bbb84419086d442002546c, type: 3}
+  m_PrefabInstance: {fileID: 5593756377134569308}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529810604}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02a611073c8507d4aa1719dc5c7c11a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deck: {fileID: 439090907}
-  topCardId: 0
---- !u!4 &1529810606
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529810604}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.581, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1687258581
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,3 +915,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 45, y: 130, z: 90}
+--- !u!1001 &5593756377134569308
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5593756377752377840, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_Name
+      value: DeckHandler
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377841, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: deck
+      value: 
+      objectReference: {fileID: 439090907}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.581
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377842, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5593756377752377843, guid: e1219356f2bbb84419086d442002546c, type: 3}
+      propertyPath: sceneId
+      value: 353140160
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e1219356f2bbb84419086d442002546c, type: 3}

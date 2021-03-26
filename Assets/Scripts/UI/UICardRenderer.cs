@@ -21,7 +21,7 @@ public class UICardRenderer : MonoBehaviour
         player = NetworkClient.connection.identity.GetComponent<SwitchPlayer>();
 
         //Update card UI when event is invoked
-        //player.HandChanged += UpdateCardUI;
+        player.MyCardsUpdated += UpdateCardUI;
 
         LoadReferenceDeck();
     }
@@ -29,7 +29,7 @@ public class UICardRenderer : MonoBehaviour
     private void OnDestroy()
     {
         //Unsubscribe from event when destroyed
-        //player.HandChanged -= UpdateCardUI;
+        player.MyCardsUpdated -= UpdateCardUI;
     }
 
     //Loads dictionary storing card data, using cardId as a key

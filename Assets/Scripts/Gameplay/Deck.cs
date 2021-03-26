@@ -7,15 +7,16 @@ using System;
 
 public class Deck : NetworkBehaviour
 {
-    [SerializeField] private Stack<Card> gameDeck = new Stack<Card>();
+    [SerializeField][SyncVar] private List<int> gameDeck = new List<int>();
     [SerializeField][SyncVar(hook = nameof(OnTopCardUpdated))] private int topCardId = 0;
+    [SerializeField] private DeckHandler deckHandler = null;
 
     public event Action<int> TopCardChanged;
     public static event Action DeckSpawned;
 
     public int GetTopCard()
     {
-        return topCardId;
+        return gameDeck[gameDeck.Count - 1];
     }
 
     #region Server
@@ -24,7 +25,7 @@ public class Deck : NetworkBehaviour
     {
         LoadDeck();
         DeckSpawned?.Invoke();
-        topCardId = gameDeck.Peek().GetCardId();
+        topCardId = gameDeck[gameDeck.Count - 1];
     }
 
     //Used to shuffle the deck
@@ -48,19 +49,13 @@ public class Deck : NetworkBehaviour
         UnityEngine.Object[] loadDeck;
         loadDeck = Resources.LoadAll("Cards/CardInstances", typeof(Card));
 
-        foreach (Card card in loadDeck)
-        {
-            gameDeck.Push(card);
-            //resourceDeck.Add(card.GetCardId(), card);
-        }
-
         //Shuffle the deck
         Shuffle(loadDeck);
 
         //Push shuffled numbers onto stack
         foreach(Card card in loadDeck)
         {
-            gameDeck.Push(card);
+            gameDeck.Add(card.GetCardId());
         }
     }
 
@@ -68,15 +63,14 @@ public class Deck : NetworkBehaviour
     {
         TopCardChanged?.Invoke(newCardId);
     }
+
+    public void RemoveTopCard()
+    {
+        gameDeck.RemoveAt(gameDeck.Count - 1);
+        topCardId = gameDeck[gameDeck.Count - 1];
+    }
     #endregion
 
     #region client
-    private void RenderTopCard(int cardId)
-    {
-        GameObject card = Instantiate(gameDeck.Peek().gameObject, this.gameObject.transform);
-        NetworkServer.Spawn(card);
-    }
-
-
     #endregion
 }
